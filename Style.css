@@ -1,0 +1,26 @@
+.logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.logo-app {
+    width: 100%;
+    max-width: 100px;
+    height: auto;
+    border-radius: 8px;
+}
+    .carousel-contenedor-reducido {
+        max-width: 500px;
+        margin: 50px auto;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Homogeniza el tamaño interno de las imágenes */
+    .img-carrusel-fija {
+        height: 320px;
+        object-fit: cover;
+        object-position: center;
+    }
