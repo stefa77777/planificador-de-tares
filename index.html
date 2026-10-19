@@ -3,123 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Planificador Diario</title>
+    <title>Planificador de Tareas Diarias</title>
     <link rel="stylesheet" href="Style.css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-    <div class="logo-container">
-        <a class="navbar-brand" href="#"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTt7R5lVFaLwnll3TaP_a8R_R76PgXZHmYkWWJ3i27mNA&s=10" alt="Logo Planificador de Tareas" class="logo-app">></a>
-    </div>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Inicio</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Tareas Diarias</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true">Incia sesion/registrate</a>
-        </li>
-        </ul>
-        <form class="d-flex" role="Buscar">
-        <input class="form-control me-2" type="Buscar" placeholder="Buscar" aria-label="Buscar"/>
-        <button class="btn btn-outline-success" type="submit">Buscar</button>
-        </form>
-    </div>
-    </div>
-</nav>
-    <div id="carouselExample" class="carousel slide">
-    <div class="carousel-contenedor-reducido">
-    
-    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="https://img.magnific.com/vector-gratis/conjunto-ninos-realizando-diferentes-actividades_1308-103145.jpg?semt=ais_hybrid&w=740&q=80" class="d-block w-100 img-carrusel-fija" alt="Niños realizando actividades">
-            </div>
-            <div class="carousel-item">
-                <img src="https://static.vecteezy.com/system/resources/previews/008/191/317/non_2x/room-scene-with-children-doing-homework-free-vector.jpg" class="d-block w-100 img-carrusel-fija" alt="Niños haciendo la tarea">
-            </div>
-            <div class="carousel-item">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMWVRXtzMwpfvnH_mPw1-qOxjrrUGcWnm3o-mx2520NQ&s=10" class="d-block w-100 img-carrusel-fija" alt="La tarea del hogar es para todos">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTt7R5lVFaLwnll3TaP_a8R_R76PgXZHmYkWWJ3i27mNA&s=10" alt="Logo Planificador de Tareas" class="logo-app" width="30" height="30">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" href="#">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Tareas Diarias</a></li>
+                </ul>
             </div>
         </div>
-        
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Siguiente</span>
-        </button>
-    </div>
-</div>
-<div class="container my-5">
-    <!-- FILA: Permite centrar el bloque del formulario en la pantalla -->
-    <div class="row justify-content-center">
-        <!-- COLUMNA: Define el ancho máximo del formulario (ej: col-md-6 o col-lg-5 para que no sea gigante) -->
-        <div class="col-12 col-md-8 col-lg-6">
-            
-            <!-- LA TARJETA (El contenedor visual con fondo blanco, bordes y sombra) -->
-            <div class="card p-4 shadow">
-                <h3 class="card-title text-center mb-4 text-primary fw-bold">Nueva Tarea</h3>
-                
-                <!-- Tu Formulario dentro de la tarjeta -->
-                <form action="#" method="POST">
-<div class="mb-3">
-  <label for="formGroupExampleInput" class="form-label">Nombra tu tarea</label>
-  <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Nombra tu tarea">
-</div>
-<div class="mb-3">
-  <label for="formGroupExampleInput2" class="form-label">Descripción</label>
-  <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Descripción de la tarea">
-  <div class="form-check">
-<div class="mb-3">
-  <label for="taskDueDate" class="form-label">Fecha de Entrega</label>
-  <input type="date" class="form-control" id="taskDueDate">
-</div>
+    </nav>
 
-<div class="mb-3">
-  <label class="form-label d-block">Estado de Asignación</label>
-  <div class="form-check">
-    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
-    <label class="form-check-label" for="checkDefault">
-      Asignada
-    </label>
-  </div>
-  <div class="form-check">
-    <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
-    <label class="form-check-label" for="checkChecked">
-      Por Asignar
-    </label>
-    
-  </div>
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="card p-4 shadow">
+                    <h3 class="card-title text-center mb-4 text-primary fw-bold">Nueva Tarea</h3>
+                    
+                    <div id="errorContainer" class="alert alert-danger d-none" role="alert"></div>
 
+                    <form id="taskForm">
 
-</div>
- </div>
-                    </div>
+                        <div class="mb-3">
+                            <label for="taskName" class="form-label">Nombra tu tarea</label>
+                            <input type="text" class="form-control" id="taskName" placeholder="Ej. Comprar materiales">
+                        </div>
 
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary btn-lg">Enviar</button>
-                    </div>
+                        <div class="mb-3">
+                            <label for="taskDescription" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="taskDescription" rows="3" placeholder="Descripción detallada de la tarea"></textarea>
+                        </div>
 
-                </form>
+                        <div class="mb-3">
+                            <label for="taskAssignee" class="form-label">Asignado a</label>
+                            <input type="text" class="form-control" id="taskAssignee" placeholder="Nombre del responsable">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="taskDueDate" class="form-label">Fecha de Entrega</label>
+                            <input type="date" class="form-control" id="taskDueDate">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="taskStatus" class="form-label">Estado</label>
+                            <select class="form-select" id="taskStatus">
+                                <option value="" selected disabled>Selecciona un estado</option>
+                                <option value="POR HACER">Por Hacer</option>
+                                <option value="EN PROCESO">En Proceso</option>
+                                <option value="REVISIÓN">Revisión</option>
+                                <option value="HECHO">Hecho</option>
+                            </select>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Guardar Tarea</button>
+                        </div>
+                    </form>
+                </div>
             </div>
+        </div>
 
+        <div class="row mt-5" id="tasksContainer">
         </div>
     </div>
-</div>
-</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
