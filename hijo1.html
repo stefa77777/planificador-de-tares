@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Hijo 1</title>
+    <link rel="stylesheet" href="Style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+</head>
+<body data-child="Hijo 1">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold text-primary" href="index.html">Planificador de Tareas Diarias</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link active fw-bold" href="hijo1.html">Santi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="hijo2.html">Dana</a></li>
+                    <li class="nav-item"><a class="nav-link" href="hijo3.html">Cami</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h2 class="fw-bold text-primary">Panel de Tareas: Santiago</h2>
+                <p class="text-muted">Aquí puedes ver y gestionar únicamente las tareas asignadas.</p>
+            </div>
+        </div>
+
+        <div class="row" id="tasksContainer"></div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>
