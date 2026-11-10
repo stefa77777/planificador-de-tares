@@ -3,78 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planificador de Tareas Diarias</title>
-    <link rel="stylesheet" href="Style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link rel="stylesheet" href="Style.css">
+    <title>Planificador de Tareas Diarias</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTt7R5lVFaLwnll3TaP_a8R_R76PgXZHmYkWWJ3i27mNA&s=10" alt="Logo Planificador de Tareas" class="logo-app" width="30" height="30">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="index.html">Planificador de Tareas Diarias</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Abrir menú">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link active" href="#">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Tareas Diarias</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link " href="hijo1.html">🦖 Santi</a></li>
+                    <li class="nav-item"><a class="nav-link " href="hijo2.html">🦄 Dana</a></li>
+                    <li class="nav-item"><a class="nav-link " href="hijo3.html">🐱 Cami</a></li>
                 </ul>
             </div>
         </div>
     </nav>
+    <div class="container my-4 my-md-5">
+        <section class="sticker hero mb-5">
+            <h1>¿Qué toca hoy?</h1>
+            <p>Asigna las tareas de la casa y mira quién va al día. Toca el panel de cada uno para ver solo sus tareas.</p>
+            <div class="row g-3 justify-content-center">
+                <div class="col-12 col-sm-6 col-lg-3"><a class="kid-chip kid-santi" href="hijo1.html"><span class="emoji">🦖</span><span><strong>Santi</strong><small data-kid-count="Santi">0 pendientes</small></span></a></div>
+                <div class="col-12 col-sm-6 col-lg-3"><a class="kid-chip kid-dana" href="hijo2.html"><span class="emoji">🦄</span><span><strong>Dana</strong><small data-kid-count="Dana">0 pendientes</small></span></a></div>
+                <div class="col-12 col-sm-6 col-lg-3"><a class="kid-chip kid-cami" href="hijo3.html"><span class="emoji">🐱</span><span><strong>Cami</strong><small data-kid-count="Cami">0 pendientes</small></span></a></div>
+            </div>
+        </section>
 
-    <div class="container my-5">
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-8 col-lg-6">
-                <div class="card p-4 shadow">
-                    <h3 class="card-title text-center mb-4 text-primary fw-bold">Nueva Tarea</h3>
+        <div class="row g-4">
+            <div class="col-lg-5">
+                <div class="sticker form-card p-4">
+                    <h3 class="text-center mb-4">Nueva tarea</h3>
                     
-                    <div id="errorContainer" class="alert alert-danger d-none" role="alert"></div>
+                    <div id="errorContainer" class="alert d-none" role="alert"></div>
 
-                    <form id="taskForm">
-
+                    <form id="taskForm" novalidate>
                         <div class="mb-3">
-                            <label for="taskName" class="form-label">Nombra tu tarea</label>
+                            <label for="taskName" class="form-label">Nombre de la tarea</label>
                             <input type="text" class="form-control" id="taskName" placeholder="Ej. Hacer tareas de matemáticas">
                         </div>
-
                         <div class="mb-3">
                             <label for="taskDescription" class="form-label">Descripción</label>
-                            <textarea class="form-control" id="taskDescription" rows="3" placeholder="Descripción detallada de la tarea"></textarea>
+                            <textarea class="form-control" id="taskDescription" rows="3" placeholder="Describe qué hay que hacer"></textarea>
                         </div>
-
                         <div class="mb-3">
                             <label for="taskAssignee" class="form-label">Asignado a</label>
-                            <input type="text" class="form-control" id="taskAssignee" placeholder="Nombre del responsable">
+                            <select class="form-select" id="taskAssignee">
+                                <option value="" selected disabled>Elige quién la hace</option>
+                                <option value="Santi">🦖 Santi</option>
+                                <option value="Dana">🦄 Dana</option>
+                                <option value="Cami">🐱 Cami</option>
+                            </select>
                         </div>
-
-                        <div class="mb-3">
-                            <label for="taskDueDate" class="form-label">Fecha de Entrega</label>
+                        <div class="row">
+                            <div class="col-sm-6 mb-3">
+                                <label for="taskDueDate" class="form-label">Fecha de entrega</label>
                             <input type="date" class="form-control" id="taskDueDate">
                         </div>
-
-                        <div class="mb-3">
+                            <div class="col-sm-6 mb-3">
                             <label for="taskStatus" class="form-label">Estado</label>
                             <select class="form-select" id="taskStatus">
-                                <option value="" selected disabled>Selecciona un estado</option>
-                                <option value="POR HACER">Por Hacer</option>
-                                <option value="EN PROCESO">En Proceso</option>
+                                    <option value="" selected disabled>Elige un estado</option>
+                                    <option value="POR HACER">Por hacer</option>
+                                    <option value="EN PROCESO">En proceso</option>
                                 <option value="REVISIÓN">Revisión</option>
                                 <option value="HECHO">Hecho</option>
                             </select>
                         </div>
-
+                        </div>
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg">Guardar Tarea</button>
+                            <button type="submit" class="btn btn-save">Guardar tarea</button>
                         </div>
                     </form>
                 </div>
             </div>
-        </div>
 
-        <div class="row mt-5" id="tasksContainer">
+            <div class="col-lg-7">
+                <div class="d-flex flex-wrap gap-2 mb-3" role="group" aria-label="Filtrar tareas">
+                    <button type="button" class="filter-btn active" data-filter="Todos">Todas</button>
+                    <button type="button" class="filter-btn" data-filter="Santi">🦖 Santi</button>
+                    <button type="button" class="filter-btn" data-filter="Dana">🦄 Dana</button>
+                    <button type="button" class="filter-btn" data-filter="Cami">🐱 Cami</button>
+                </div>
+                <div class="row g-4" id="tasksContainer"></div>
+        </div>
         </div>
     </div>
 

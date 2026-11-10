@@ -1,19 +1,176 @@
-.logo-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 15px;
-}
-
-.logo-app {
-    width: 100%;
-    max-width: 100px;
-    height: auto;
-    border-radius: 8px;
+:root {
+    --ink: #241a3d;
+    --paper: #fffaf0;
+    --lilac: #efe6ff;
+    --santi: #4d7cff;
+    --dana: #ff6fa5;
+    --cami: #ffb23e;
+    --por-hacer: #ff7b7b;
+    --en-proceso: #ffcf4d;
+    --revision: #62d6ea;
+    --hecho: #55d391;
+    --accent: #7a5cff;
+    --font-display: 'Baloo 2', 'Trebuchet MS', 'Segoe UI', sans-serif;
+    --font-body: 'Nunito', 'Segoe UI', Tahoma, sans-serif;
 }
 
 body {
-    background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
     min-height: 100vh;
     margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--ink);
+    font-family: var(--font-body);
+    background-color: var(--lilac);
+    background-image: radial-gradient(rgba(122, 92, 255, .22) 1.5px, transparent 1.5px);
+    background-size: 22px 22px;
+}
+
+body[data-child="Santi"] { --accent: var(--santi); }
+body[data-child="Dana"]  { --accent: var(--dana); }
+body[data-child="Cami"]  { --accent: var(--cami); }
+
+h1, h2, h3, h4, h5, .navbar-brand { font-family: var(--font-display); font-weight: 800; }
+
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+/* ---------- Navegación ---------- */
+.navbar {
+    background: var(--paper) !important;
+    border-bottom: 3px solid var(--ink);
+}
+.navbar-brand { color: var(--ink) !important; font-size: 1.4rem; }
+.nav-link { color: var(--ink); font-weight: 700; border-radius: 999px; padding: .35rem .9rem !important; margin: 0 .15rem; }
+.nav-link:hover { background: var(--lilac); }
+.nav-link.active { background: var(--ink); color: var(--paper) !important; }
+
+/* ---------- Superficies tipo "sticker" ---------- */
+.sticker {
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 20px;
+    box-shadow: 6px 6px 0 var(--ink);
+}
+
+/* ---------- Portada ---------- */
+.hero { padding: 2.5rem 1.5rem; text-align: center; }
+.hero h1 { font-size: clamp(2.2rem, 6vw, 3.6rem); line-height: 1.05; margin-bottom: .5rem; }
+.hero p { font-size: 1.15rem; max-width: 36rem; margin: 0 auto 1.5rem; }
+
+.kid-chip {
+    display: flex; align-items: center; gap: .75rem;
+    padding: .7rem 1.1rem;
+    text-decoration: none; color: var(--ink);
+    background: var(--kid);
+    border: 3px solid var(--ink); border-radius: 999px;
+    box-shadow: 4px 4px 0 var(--ink);
+    transition: transform .12s, box-shadow .12s;
+}
+.kid-chip:hover { color: var(--ink); transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--ink); }
+.kid-chip .emoji { font-size: 2rem; line-height: 1; }
+.kid-chip strong { font-family: var(--font-display); font-size: 1.3rem; display: block; line-height: 1.1; }
+.kid-chip small { font-weight: 700; }
+.kid-santi { --kid: #b9ccff; }
+.kid-dana  { --kid: #ffc2d9; }
+.kid-cami  { --kid: #ffe0a3; }
+
+/* ---------- Formulario ---------- */
+.form-card h3 { font-size: 1.6rem; }
+.form-label { font-weight: 800; margin-bottom: .25rem; }
+.form-control, .form-select {
+    border: 2px solid var(--ink); border-radius: 12px; background: #fff; color: var(--ink);
+}
+.form-control:focus, .form-select:focus { border-color: var(--ink); box-shadow: 0 0 0 4px rgba(122, 92, 255, .35); }
+
+.btn-save {
+    background: var(--ink); color: var(--paper);
+    font-family: var(--font-display); font-size: 1.25rem; font-weight: 800;
+    border: 3px solid var(--ink); border-radius: 14px; padding: .55rem 1rem;
+    box-shadow: 4px 4px 0 var(--accent);
+    transition: transform .12s, box-shadow .12s;
+}
+.btn-save:hover { background: var(--ink); color: var(--paper); transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--accent); }
+
+#errorContainer { border: 2px solid var(--ink); border-radius: 12px; background: #ffd9d9; color: var(--ink); font-weight: 700; }
+#errorContainer ul { margin: 0; padding-left: 1.1rem; }
+
+/* ---------- Filtros ---------- */
+.filter-btn {
+    font-weight: 800; color: var(--ink); background: var(--paper);
+    border: 2px solid var(--ink); border-radius: 999px; padding: .3rem 1rem;
+}
+.filter-btn:hover { background: #fff; }
+.filter-btn.active { background: var(--ink); color: var(--paper); }
+
+/* ---------- Tarjetas de tarea ---------- */
+.task-card {
+    --kid: var(--accent);
+    background: var(--paper);
+    border: 3px solid var(--ink); border-radius: 18px;
+    box-shadow: 5px 5px 0 var(--ink);
+    height: 100%; display: flex; flex-direction: column; overflow: hidden;
+}
+.task-card[data-kid="Santi"] { --kid: var(--santi); }
+.task-card[data-kid="Dana"]  { --kid: var(--dana); }
+.task-card[data-kid="Cami"]  { --kid: var(--cami); }
+
+.task-top {
+    background: var(--kid); border-bottom: 3px solid var(--ink);
+    padding: .5rem .9rem; display: flex; align-items: center; gap: .5rem;
+    font-family: var(--font-display); font-weight: 800; font-size: 1.05rem;
+}
+.task-top .emoji { font-size: 1.4rem; }
+.task-body { padding: .9rem 1rem 1rem; display: flex; flex-direction: column; gap: .6rem; flex: 1; }
+.task-title { font-size: 1.2rem; margin: 0; overflow-wrap: anywhere; }
+.task-desc { margin: 0; flex: 1; overflow-wrap: anywhere; }
+.task-card.is-done .task-title { text-decoration: line-through; text-decoration-thickness: 3px; opacity: .6; }
+.task-card.is-done .task-desc { opacity: .6; }
+
+.due { font-weight: 800; font-size: .92rem; }
+.due.late { color: #c4223a; }
+.due.soon { color: #a85b00; }
+
+.status-select {
+    appearance: none; -webkit-appearance: none;
+    font-weight: 800; font-size: .88rem; color: var(--ink);
+    border: 2px solid var(--ink); border-radius: 999px;
+    padding: .25rem 1.7rem .25rem .8rem; cursor: pointer;
+    background-color: var(--por-hacer);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' fill='none' stroke='%23241a3d' stroke-width='2'/></svg>");
+    background-repeat: no-repeat; background-position: right .6rem center;
+}
+.status-select[data-status="POR HACER"]  { background-color: var(--por-hacer); }
+.status-select[data-status="EN PROCESO"] { background-color: var(--en-proceso); }
+.status-select[data-status="REVISIÓN"]   { background-color: var(--revision); }
+.status-select[data-status="HECHO"]      { background-color: var(--hecho); }
+
+.delete-btn {
+    background: transparent; color: var(--ink); font-weight: 800; font-size: .85rem;
+    border: 2px solid var(--ink); border-radius: 10px; padding: .15rem .65rem;
+}
+.delete-btn:hover { background: #ffd9d9; }
+
+/* ---------- Estado vacío ---------- */
+.empty-state { text-align: center; padding: 2.5rem 1.5rem; }
+.empty-state .emoji { font-size: 3rem; }
+.empty-state h4 { font-size: 1.4rem; }
+
+/* ---------- Panel de cada hijo ---------- */
+.kid-banner { padding: 1.6rem; display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; background: var(--accent); }
+.kid-banner .avatar {
+    width: 84px; height: 84px; display: grid; place-items: center; font-size: 3rem;
+    background: var(--paper); border: 3px solid var(--ink); border-radius: 50%;
+}
+.kid-banner h2 { font-size: clamp(1.7rem, 5vw, 2.4rem); margin: 0; }
+.kid-banner p { margin: 0; font-weight: 700; }
+
+.progress-wrap { flex: 1 1 240px; }
+.progress-track { height: 24px; background: var(--paper); border: 3px solid var(--ink); border-radius: 999px; overflow: hidden; }
+.progress-fill { height: 100%; width: 0; background: var(--hecho); border-right: 3px solid var(--ink); transition: width .5s ease; }
+.progress-fill.empty { border-right: 0; }
+
+/* Entrada de una tarea nueva */
+@keyframes pop { from { transform: scale(.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.task-new { animation: pop .3s ease-out; }
+@media (prefers-reduced-motion: reduce) {
+    .task-new { animation: none; }
+    .progress-fill, .kid-chip, .btn-save { transition: none; }
 }
