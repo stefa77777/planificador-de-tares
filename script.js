@@ -105,25 +105,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (taskForm) {
         taskForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-        const nombre = document.getElementById("taskName").value.trim();
-        const descripcion = document.getElementById("taskDescription").value.trim();
+            event.preventDefault();
+            const nombre = document.getElementById("taskName").value.trim();
+            const descripcion = document.getElementById("taskDescription").value.trim();
             const asignadoA = document.getElementById("taskAssignee").value;
-        const fechaEntrega = document.getElementById("taskDueDate").value;
-        const estado = document.getElementById("taskStatus").value;
-        const errors = miTaskManager.validateTaskForm(nombre, descripcion, asignadoA, fechaEntrega, estado);
+            const fechaEntrega = document.getElementById("taskDueDate").value;
+            const estado = document.getElementById("taskStatus").value;
+            const errors = miTaskManager.validateTaskForm(nombre, descripcion, asignadoA, fechaEntrega, estado);
 
-        if (errors.length > 0) {
+            if (errors.length > 0) {
                 errorContainer.innerHTML = "<ul>" + errors.map(e => "<li>" + e + "</li>").join("") + "</ul>";
-            errorContainer.classList.remove("d-none");
-            return;
-        }
-        errorContainer.classList.add("d-none");
-        errorContainer.innerHTML = "";
+                errorContainer.classList.remove("d-none");
+                return;
+            }
+            errorContainer.classList.add("d-none");
+            errorContainer.innerHTML = "";
             const nueva = miTaskManager.addTask(nombre, descripcion, asignadoA, fechaEntrega, estado);
-        taskForm.reset();
+            taskForm.reset();
             renderizarTodo(nueva.id);
-    });
+        });
     }
 
     document.querySelectorAll(".filter-btn").forEach(btn => {
