@@ -205,14 +205,14 @@ function renderizarTodo(nuevaId) {
     const quien = kidDeLaPagina || filtroActual;
     let lista = quien === "Todos" ? miTaskManager.getAllTasks() : miTaskManager.getTasksFor(quien);
     lista = lista.slice().sort((a, b) => a.fechaEntrega.localeCompare(b.fechaEntrega));
-
-    container.innerHTML = "";
+        container.innerHTML = "";
     if (lista.length === 0) {
         container.innerHTML = vacioHtml(quien);
     } else {
         lista.forEach(task => renderizarTarjeta(task, task.id === nuevaId));
     }
     actualizarResumen();
+    actualizarMensajeBot(quien, lista);
 }
 
 function renderizarTarjeta(task, esNueva) {
@@ -299,3 +299,53 @@ function escapeHtml(text) {
     const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
     return String(text).replace(/[&<>"']/g, function (m) { return map[m]; });
 }
+const FRASES_RESPALDO = [
+    "¡Un paso a la vez! Empieza por la tarea más corta y verás qué rápido avanzas.",
+    "¡Tú puedes! Terminar tus deberes te deja más tiempo libre para jugar.",
+    "¡Excelente trabajo! Cada tarea completada cuenta."
+];
+
+async function actualizarMensajeBot(nombrePersona, tareas) {
+    const mensajeEl = document.getElementById("bot-mensaje");
+    const tituloEl = document.getElementById("bot-titulo");
+    if (!mensajeEl) return;
+
+    const persona = nombrePersona && nombrePersona !== "Todos" ? nombrePersona : "Equipo";
+    const pendientes = tareas.filter(t => t.estado !== "HECHO").length;
+    const hechas = tareas.filter(t => t.estado === "HECHO").length;
+
+    if (tituloEl) {
+        tituloEl.textContent = nombrePersona && nombrePersona !== "Todos"
+            ? `Mensaje para ${nombrePersona}`
+            : "Mensaje del día";
+    }
+
+    mensajeEl.textContent = "Pensando un consejo para ti...";
+
+    try {
+        const data = await TaskApi.getMotivation(persona, pendientes, hechas);
+        mensajeEl.textContent = data?.mensaje || FRASES_RESPALDO[0];
+    } catch (error) {
+        const aleatoria = FRASES_RESPALDO[Math.floor(Math.random() * FRASES_RESPALDO.length)];
+        mensajeEl.textContent = aleatoria;
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const btnNuevaFrase = document.getElementById("btn-nueva-frase");
+    if (!btnNuevaFrase) return;
+
+    btnNuevaFrase.addEventListener("click", async () => {
+        const quien = kidDeLaPagina || filtroActual || "Todos";
+        const lista = quien === "Todos"
+            ? miTaskManager.getAllTasks()
+            : miTaskManager.getTasksFor(quien);
+
+        btnNuevaFrase.disabled = true;
+        try {
+            await actualizarMensajeBot(quien, lista);
+        } finally {
+            btnNuevaFrase.disabled = false;
+        }
+    });
+});
