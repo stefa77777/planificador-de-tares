@@ -1,3 +1,5 @@
+import { TaskApi } from "./api.js";
+
 const KIDS = {
     Santi: { emoji: "🦖" },
     Dana:  { emoji: "🦄" },
@@ -10,59 +12,43 @@ const ESTADO_LABEL = {
     "REVISIÓN": "Revisión",
     "HECHO": "Hecho"
 };
-const STORAGE_KEY = "planificador-tareas-v1";
 
-class taskManager {
+class TaskManager {
     constructor() {
         this.tasks = [];
-        this.currentId = 1;
-        this.load();
     }
 
-    load() {
-        try {
-            const raw = localStorage.getItem(STORAGE_KEY);
-            if (!raw) return;
-            const data = JSON.parse(raw);
-            this.tasks = Array.isArray(data.tasks) ? data.tasks : [];
-            this.currentId = data.currentId || 1;
-        } catch (e) {
-            this.tasks = [];
-            this.currentId = 1;
-        }
+    async load() {
+        this.tasks = await TaskApi.getAll();
     }
 
-    save() {
-        try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify({ tasks: this.tasks, currentId: this.currentId }));
-        } catch (e) { /* sin almacenamiento disponible */ }
+    async addTask(nombre, descripcion, asignadoA, fechaEntrega, estado) {
+        const creada = await TaskApi.create({
+            nombre,
+            descripcion,
+            asignadoA,
+            fechaEntrega,
+            estado
+        });
+        this.tasks.push(creada);
+        return creada;
     }
 
-    addTask(nombre, descripcion, asignadoA, fechaEntrega, estado) {
-        const newtask = {
-            id: this.currentId++,
-            nombre: nombre,
-            descripcion: descripcion,
-            asignadoA: asignadoA,
-            fechaEntrega: fechaEntrega,
-            estado: estado
-        };
-        this.tasks.push(newtask);
-        this.save();
-        return newtask;
-    }
-
-    deleteTask(taskId) {
+    async deleteTask(taskId) {
+        await TaskApi.remove(taskId);
         this.tasks = this.tasks.filter(task => task.id !== taskId);
-        this.save();
     }
 
-    updateStatus(taskId, estado) {
+    async updateStatus(taskId, estado) {
+        if (!ESTADOS.includes(estado)) return;
         const task = this.tasks.find(t => t.id === taskId);
-        if (task && ESTADOS.includes(estado)) {
-            task.estado = estado;
-            this.save();
-        }
+        if (!task) return;
+
+        const actualizada = await TaskApi.update(taskId, {
+            ...task,
+            estado
+        });
+        this.tasks = this.tasks.map(t => (t.id === taskId ? actualizada : t));
     }
 
     getAllTasks() {
@@ -94,17 +80,55 @@ class taskManager {
     }
 }
 
-const miTaskManager = new taskManager();
+const miTaskManager = new TaskManager();
 let filtroActual = "Todos";
 const kidDeLaPagina = document.body.dataset.child || null;
 
-document.addEventListener("DOMContentLoaded", () => {
-    const taskForm = document.getElementById("taskForm");
+function mostrarErrores(mensajes) {
     const errorContainer = document.getElementById("errorContainer");
+    const lista = Array.isArray(mensajes) ? mensajes : [mensajes];
+
+    if (errorContainer) {
+        errorContainer.innerHTML = "<ul>" + lista.map(e => "<li>" + escapeHtml(e) + "</li>").join("") + "</ul>";
+        errorContainer.classList.remove("d-none");
+        return;
+    }
+
+    let alerta = document.getElementById("apiAlertFallback");
+    if (!alerta) {
+        alerta = document.createElement("div");
+        alerta.id = "apiAlertFallback";
+        alerta.className = "alert alert-danger mt-3";
+        (document.querySelector("main") || document.body).prepend(alerta);
+    }
+    alerta.innerHTML = lista.map(e => escapeHtml(e)).join("<br>");
+}
+
+function limpiarErrores() {
+    const errorContainer = document.getElementById("errorContainer");
+    if (errorContainer) {
+        errorContainer.classList.add("d-none");
+        errorContainer.innerHTML = "";
+    }
+    const alerta = document.getElementById("apiAlertFallback");
+    if (alerta) {
+        alerta.remove();
+    }
+}
+
+function mensajeConexion(err, fallback) {
+    if (err instanceof TypeError) {
+        return "No se pudo conectar con el servidor en http://localhost:8080. Revisa que Spring Boot esté ejecutándose.";
+    }
+    return err?.mensajes || err?.message || fallback;
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+    const taskForm = document.getElementById("taskForm");
     const container = document.getElementById("tasksContainer");
 
     if (taskForm) {
-        taskForm.addEventListener("submit", function (event) {
+        taskForm.addEventListener("submit", async function (event) {
             event.preventDefault();
             const nombre = document.getElementById("taskName").value.trim();
             const descripcion = document.getElementById("taskDescription").value.trim();
@@ -114,15 +138,18 @@ document.addEventListener("DOMContentLoaded", () => {
             const errors = miTaskManager.validateTaskForm(nombre, descripcion, asignadoA, fechaEntrega, estado);
 
             if (errors.length > 0) {
-                errorContainer.innerHTML = "<ul>" + errors.map(e => "<li>" + e + "</li>").join("") + "</ul>";
-                errorContainer.classList.remove("d-none");
+                mostrarErrores(errors);
                 return;
             }
-            errorContainer.classList.add("d-none");
-            errorContainer.innerHTML = "";
-            const nueva = miTaskManager.addTask(nombre, descripcion, asignadoA, fechaEntrega, estado);
-            taskForm.reset();
-            renderizarTodo(nueva.id);
+
+            try {
+                limpiarErrores();
+                const nueva = await miTaskManager.addTask(nombre, descripcion, asignadoA, fechaEntrega, estado);
+                taskForm.reset();
+                renderizarTodo(nueva.id);
+            } catch (err) {
+                mostrarErrores(mensajeConexion(err, "No se pudo guardar la tarea."));
+            }
         });
     }
 
@@ -135,21 +162,39 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (container) {
-        container.addEventListener("change", (e) => {
+        container.addEventListener("change", async (e) => {
             if (e.target.classList.contains("status-select")) {
-                miTaskManager.updateStatus(Number(e.target.dataset.id), e.target.value);
-                renderizarTodo();
+                try {
+                    limpiarErrores();
+                    await miTaskManager.updateStatus(Number(e.target.dataset.id), e.target.value);
+                    renderizarTodo();
+                } catch (err) {
+                    mostrarErrores(mensajeConexion(err, "No se pudo actualizar el estado."));
+                    renderizarTodo();
+                }
             }
         });
-        container.addEventListener("click", (e) => {
+
+        container.addEventListener("click", async (e) => {
             const btn = e.target.closest(".delete-btn");
             if (btn && confirm("¿Eliminar esta tarea?")) {
-                miTaskManager.deleteTask(Number(btn.dataset.id));
-                renderizarTodo();
+                try {
+                    limpiarErrores();
+                    await miTaskManager.deleteTask(Number(btn.dataset.id));
+                    renderizarTodo();
+                } catch (err) {
+                    mostrarErrores(mensajeConexion(err, "No se pudo eliminar la tarea."));
+                }
             }
         });
     }
 
+    try {
+        limpiarErrores();
+        await miTaskManager.load();
+    } catch (err) {
+        mostrarErrores(mensajeConexion(err, "No se pudieron cargar las tareas desde el servidor."));
+    }
     renderizarTodo();
 });
 
@@ -214,7 +259,6 @@ function vacioHtml(quien) {
 }
 
 function actualizarResumen() {
-    // Contadores en la portada
     Object.keys(KIDS).forEach(nombre => {
         const el = document.querySelector(`[data-kid-count="${nombre}"]`);
         if (!el) return;
@@ -222,7 +266,6 @@ function actualizarResumen() {
         el.textContent = pendientes === 1 ? "1 pendiente" : `${pendientes} pendientes`;
     });
 
-    // Barra de progreso en el panel de cada hijo
     const fill = document.getElementById("progressFill");
     const text = document.getElementById("progressText");
     if (fill && text && kidDeLaPagina) {
